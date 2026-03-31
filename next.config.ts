@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 
+const isGitHubPages = process.env.GITHUB_ACTIONS === "true";
+const repoName = "shreeti-blog";
+
 const nextConfig: NextConfig = {
+  output: "export",
+  trailingSlash: true,
+  basePath: isGitHubPages ? `/${repoName}` : undefined,
+  assetPrefix: isGitHubPages ? `/${repoName}/` : undefined,
   images: {
+    unoptimized: true,
     remotePatterns: [
       { protocol: "https", hostname: "**.cdninstagram.com" },
       { protocol: "https", hostname: "instagram.com" },
