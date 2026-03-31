@@ -16,6 +16,9 @@
 # next.js
 /.next/
 /out/
+/content/*.sqlite
+/content/*.sqlite-shm
+/content/*.sqlite-wal
 
 # production
 /build

@@ -1,0 +1,4 @@
+# Add one Instagram post or reel URL per line.
+# Example:
+# https://www.instagram.com/p/XXXXXXXXXXX/
+# https://www.instagram.com/reel/YYYYYYYYYYY/
