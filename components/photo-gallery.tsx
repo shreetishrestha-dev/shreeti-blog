@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, X } from "lucide-react";
 import { useState } from "react";
 
+import { withBasePath } from "@/lib/site";
 import type { PhotoItem } from "@/lib/types";
 
 export function PhotoGallery({
@@ -31,7 +32,7 @@ export function PhotoGallery({
           >
             <div className="absolute inset-2 top-10 bg-[linear-gradient(180deg,transparent_18%,rgba(24,18,20,0.78)_100%)]" />
             <Image
-              src={photo.imageUrl}
+              src={withBasePath(photo.imageUrl)}
               alt={photo.alt}
               width={900}
               height={1200}
@@ -73,7 +74,7 @@ export function PhotoGallery({
               </div>
               <div className="grid flex-1 gap-6 overflow-hidden rounded-[2rem] md:grid-cols-[1.5fr_0.9fr]">
                 <div className="relative min-h-[22rem] overflow-hidden rounded-[2rem]">
-                  <Image src={active.imageUrl} alt={active.alt} fill className="object-cover" />
+                  <Image src={withBasePath(active.imageUrl)} alt={active.alt} fill className="object-cover" />
                 </div>
                 <div className="paper-panel flex flex-col justify-end rounded-[2rem] p-8">
                   <p className="text-xs uppercase tracking-[0.35em] text-[var(--muted)]">Lightbox</p>

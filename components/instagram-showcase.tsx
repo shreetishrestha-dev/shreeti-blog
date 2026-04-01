@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { withBasePath } from "@/lib/site";
 import type { InstagramCard } from "@/lib/types";
 
 const sketchPlaceholders = [
@@ -30,7 +31,7 @@ export function InstagramShowcase({ cards }: { cards: InstagramCard[] }) {
             <div className="relative overflow-hidden rounded-[1.5rem] bg-stone-200/80">
               {card.imageUrl ? (
                 <Image
-                  src={card.imageUrl}
+                  src={withBasePath(card.imageUrl)}
                   alt={card.title}
                   width={240}
                   height={240}
@@ -38,7 +39,7 @@ export function InstagramShowcase({ cards }: { cards: InstagramCard[] }) {
                 />
               ) : (
                 <Image
-                  src={sketchPlaceholder}
+                  src={withBasePath(sketchPlaceholder)}
                   alt="Sketch placeholder"
                   width={240}
                   height={240}
@@ -51,14 +52,14 @@ export function InstagramShowcase({ cards }: { cards: InstagramCard[] }) {
                 <div className="relative h-12 w-12 overflow-hidden rounded-full border border-[var(--border)] bg-[rgba(255,255,255,0.5)]">
                   {card.profileImageUrl ? (
                     <Image
-                      src={card.profileImageUrl}
+                      src={withBasePath(card.profileImageUrl)}
                       alt={card.username ? `${card.username} profile photo` : card.title}
                       fill
                       className="object-cover"
                     />
                   ) : (
                     <Image
-                      src={sketchPlaceholder}
+                      src={withBasePath(sketchPlaceholder)}
                       alt="Sketch profile placeholder"
                       fill
                       className="object-cover"

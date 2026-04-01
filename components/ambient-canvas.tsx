@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 
+import { withBasePath } from "@/lib/site";
+
 const sunflowers = [
   {
     src: "/sunflower-crayon-a.svg",
@@ -115,7 +117,7 @@ export function AmbientCanvas() {
         {sunflowers.map((flower) => (
           <div key={`${flower.src}-${flower.className}`} className={flower.className} style={flower.style}>
             <Image
-              src={flower.src}
+              src={withBasePath(flower.src)}
               alt={flower.alt}
               width={220}
               height={260}
