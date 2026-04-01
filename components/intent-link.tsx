@@ -1,29 +1,33 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { ComponentProps } from "react";
+import type { AnchorHTMLAttributes } from "react";
 
-type IntentLinkProps = ComponentProps<typeof Link>;
+import { withBasePath } from "@/lib/site";
+
+type IntentLinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
+  href: string;
+};
 
 export function IntentLink({ href, onMouseEnter, onFocus, onTouchStart, ...props }: IntentLinkProps) {
   const router = useRouter();
+  const normalizedHref = href === "/" || href.endsWith("/") ? href : `${href}/`;
+  const resolvedHref = withBasePath(normalizedHref);
 
   return (
-    <Link
+    <a
       {...props}
-      href={href}
-      prefetch
+      href={resolvedHref}
       onMouseEnter={(event) => {
-        if (typeof href === "string") router.prefetch(href);
+        router.prefetch(resolvedHref);
         onMouseEnter?.(event);
       }}
       onFocus={(event) => {
-        if (typeof href === "string") router.prefetch(href);
+        router.prefetch(resolvedHref);
         onFocus?.(event);
       }}
       onTouchStart={(event) => {
-        if (typeof href === "string") router.prefetch(href);
+        router.prefetch(resolvedHref);
         onTouchStart?.(event);
       }}
     />
