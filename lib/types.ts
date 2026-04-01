@@ -20,6 +20,10 @@ export type PhotoItem = {
   alt: string;
   imageUrl: string;
   caption: string;
+  photographerName?: string;
+  username?: string;
+  profileImageUrl?: string;
+  publishedAt?: string;
   postUrl?: string;
 };
 
@@ -28,12 +32,13 @@ export type InstagramCard = {
   title: string;
   caption: string;
   imageUrl?: string;
+  profileImageUrl?: string;
+  username?: string;
   url: string;
   kind: "profile" | "post";
 };
 
 export type HomeData = {
-  featured: CreativeEntry[];
   poems: CreativeEntry[];
   articles: CreativeEntry[];
   photography: PhotoItem[];

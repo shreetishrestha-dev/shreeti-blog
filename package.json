@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "import:instagram-poems": "node scripts/import-instagram-poems.mjs",
-    "import:instagram-poems-export": "node scripts/import-instagram-poems-from-export.mjs"
+    "import:instagram-poems-export": "node scripts/import-instagram-poems-from-export.mjs",
+    "import:firebase-surprise-poems": "node scripts/import-firebase-surprise-poems.mjs",
+    "import:instagram-photography-export": "node scripts/import-instagram-photography-from-export.mjs",
+    "filter:instagram-photography-faces": ".venv-facefilter/bin/python scripts/filter-instagram-photography-faces.py"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

@@ -1,13 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 
+import { IntentLink } from "@/components/intent-link";
 import type { CreativeEntry } from "@/lib/types";
 
 export function PoemCard({ entry }: { entry: CreativeEntry }) {
   return (
-    <Link href={`/blog/${entry.slug}`} className="block">
+    <IntentLink href={`/blog/${entry.slug}`} className="block">
       <motion.article
         whileHover={{ scale: 1.015, x: 4 }}
         transition={{ type: "spring", stiffness: 170, damping: 22 }}
@@ -20,6 +20,6 @@ export function PoemCard({ entry }: { entry: CreativeEntry }) {
           </h3>
         </div>
       </motion.article>
-    </Link>
+    </IntentLink>
   );
 }

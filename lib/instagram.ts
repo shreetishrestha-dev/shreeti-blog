@@ -1,4 +1,5 @@
 import { siteConfig } from "@/content/site-content";
+import generatedPhotography from "@/content/instagram-photography.generated.json";
 import type { InstagramCard, PhotoItem } from "@/lib/types";
 import { decodeHtml, slugify } from "@/lib/utils";
 
@@ -6,6 +7,8 @@ type InstagramMeta = {
   title: string;
   description: string;
   imageUrl?: string;
+  profileImageUrl?: string;
+  username?: string;
   url: string;
 };
 
@@ -28,11 +31,21 @@ async function fetchInstagramMeta(url: string): Promise<InstagramMeta | null> {
       html.match(/name="description" content="([^"]+)"/)?.[1] ??
       "";
     const imageUrl = html.match(/property="og:image" content="([^"]+)"/)?.[1];
+    const username =
+      html.match(/"username":"([^"]+)"/)?.[1] ??
+      html.match(/"alternateName":"@?([^"]+)"/)?.[1] ??
+      url.match(/instagram\.com\/([^/?#]+)/)?.[1];
+    const profileImageUrl =
+      html.match(/"profile_pic_url_hd":"([^"]+)"/)?.[1] ??
+      html.match(/"profile_pic_url":"([^"]+)"/)?.[1] ??
+      imageUrl;
 
     return {
       title: decodeHtml(title),
       description: decodeHtml(description),
       imageUrl: imageUrl ? decodeHtml(imageUrl) : undefined,
+      profileImageUrl: profileImageUrl ? decodeHtml(profileImageUrl.replace(/\\u0026/g, "&")) : undefined,
+      username: username ? decodeHtml(username.replace(/^@/, "")) : undefined,
       url,
     };
   } catch {
@@ -56,12 +69,17 @@ export async function getInstagramProfileCards(): Promise<InstagramCard[]> {
       title: item.title.replace(" • Instagram photos and videos", ""),
       caption: item.description,
       imageUrl: item.imageUrl,
+      profileImageUrl: item.profileImageUrl,
+      username: item.username,
       url: item.url,
       kind: "profile" as const,
     }));
 }
 
 export async function getInstagramPhotography(): Promise<PhotoItem[]> {
+  const importedPhotography = generatedPhotography as PhotoItem[];
+  if (importedPhotography.length) return importedPhotography;
+
   const entries = await Promise.all(
     siteConfig.instagram.photographyPostUrls.map((url) => fetchInstagramMeta(url)),
   );

@@ -13,10 +13,8 @@ export async function getHomeData(): Promise<HomeData> {
   const poems = entries.filter((entry) => entry.category === "poem");
   const articles = entries.filter((entry) => entry.category === "article");
   const photos = photography.length ? photography : featuredPhotographyNotes;
-  const featured = [...poems, ...articles].filter((entry) => entry.featured).slice(0, 4);
 
   return {
-    featured,
     poems,
     articles,
     photography: photos,

@@ -162,13 +162,17 @@ function FireflyTrail({
 export function CustomCursor() {
   const [cursorState, setCursorState] = useState({
     position: { x: 0, y: 0 },
-    trailPosition: { x: 0, y: 0 },
     heading: 0,
-    trailHeading: 0,
     active: false,
+  });
+  const [trailState, setTrailState] = useState({
+    position: { x: 0, y: 0 },
+    heading: 0,
   });
   const targetRef = useRef({ x: 0, y: 0 });
   const previousTargetRef = useRef({ x: 0, y: 0 });
+  const trailPositionRef = useRef({ x: 0, y: 0 });
+  const trailHeadingRef = useRef(0);
   const animationRef = useRef<number | null>(null);
 
   function getAngle(from: { x: number; y: number }, to: { x: number; y: number }) {
@@ -201,18 +205,19 @@ export function CustomCursor() {
       }));
 
     const tick = () => {
-      setCursorState((current) => {
-        const next = {
-          x: current.trailPosition.x + (targetRef.current.x - current.trailPosition.x) * 0.13,
-          y: current.trailPosition.y + (targetRef.current.y - current.trailPosition.y) * 0.13,
-        };
-        const nextHeading = getAngle(current.trailPosition, next);
+      const currentTrail = trailPositionRef.current;
+      const next = {
+        x: currentTrail.x + (targetRef.current.x - currentTrail.x) * 0.13,
+        y: currentTrail.y + (targetRef.current.y - currentTrail.y) * 0.13,
+      };
+      const nextHeading = getAngle(currentTrail, next);
 
-        return {
-          ...current,
-          trailPosition: next,
-          trailHeading: nextHeading ?? current.trailHeading,
-        };
+      trailPositionRef.current = next;
+      trailHeadingRef.current = nextHeading ?? trailHeadingRef.current;
+
+      setTrailState({
+        position: next,
+        heading: trailHeadingRef.current,
       });
       animationRef.current = window.requestAnimationFrame(tick);
     };
@@ -230,8 +235,8 @@ export function CustomCursor() {
 
   return (
     <>
-      <BeeTrail start={cursorState.position} end={cursorState.trailPosition} active={cursorState.active} />
-      <FireflyTrail start={cursorState.position} end={cursorState.trailPosition} active={cursorState.active} />
+      <BeeTrail start={cursorState.position} end={trailState.position} active={cursorState.active} />
+      <FireflyTrail start={cursorState.position} end={trailState.position} active={cursorState.active} />
       <Bee
         className="day-cursor pointer-events-none fixed z-50 hidden h-12 w-12 transition-transform duration-75 md:block"
         style={{
@@ -243,7 +248,7 @@ export function CustomCursor() {
         className="day-cursor pointer-events-none fixed z-40 hidden h-10 w-10 opacity-85 transition-transform duration-150 md:block"
         scale={0.88}
         style={{
-          transform: `translate3d(${cursorState.trailPosition.x - 16}px, ${cursorState.trailPosition.y - 19}px, 0) rotate(${cursorState.trailHeading}deg)`,
+          transform: `translate3d(${trailState.position.x - 16}px, ${trailState.position.y - 19}px, 0) rotate(${trailState.heading}deg)`,
           opacity: cursorState.active ? 0.85 : 0,
         }}
       />
@@ -258,7 +263,7 @@ export function CustomCursor() {
         className="night-cursor pointer-events-none fixed z-40 hidden h-10 w-10 opacity-85 transition-transform duration-150 md:block"
         scale={0.88}
         style={{
-          transform: `translate3d(${cursorState.trailPosition.x - 16}px, ${cursorState.trailPosition.y - 19}px, 0) rotate(${cursorState.trailHeading}deg)`,
+          transform: `translate3d(${trailState.position.x - 16}px, ${trailState.position.y - 19}px, 0) rotate(${trailState.heading}deg)`,
           opacity: cursorState.active ? 0.85 : 0,
         }}
       />

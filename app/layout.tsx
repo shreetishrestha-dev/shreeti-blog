@@ -5,7 +5,9 @@ import "./globals.css";
 
 import { AmbientCanvas } from "@/components/ambient-canvas";
 import { CustomCursor } from "@/components/custom-cursor";
+import { FooterIsland } from "@/components/footer-island";
 import { FloatingNav } from "@/components/floating-nav";
+import { PageUtilities } from "@/components/page-utilities";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 
 const bodyFont = Manrope({
@@ -35,12 +37,14 @@ export default function RootLayout({
         <AmbientCanvas />
         <CustomCursor />
         <FloatingNav />
+        <PageUtilities />
         <div className="pointer-events-none fixed inset-x-4 top-4 z-20 flex justify-start">
           <div className="pointer-events-auto">
             <ThemeSwitcher />
           </div>
         </div>
         {children}
+        <FooterIsland />
       </body>
     </html>
   );

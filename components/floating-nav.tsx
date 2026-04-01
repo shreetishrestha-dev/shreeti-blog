@@ -8,7 +8,6 @@ import { useState } from "react";
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/poems", label: "Poems" },
-  { href: "/blog", label: "Archive" },
   { href: "/gallery", label: "Gallery" },
 ];
 
@@ -17,7 +16,7 @@ export function FloatingNav() {
 
   return (
     <>
-      <div className="sticky top-4 z-30 mx-auto flex w-full max-w-6xl justify-end px-4">
+      <div className="fixed right-4 top-4 z-30 flex justify-end">
         <button
           aria-label="Toggle menu"
           className="ghost-button flex items-center gap-2 rounded-full px-4 py-3 text-sm font-medium"
@@ -35,7 +34,7 @@ export function FloatingNav() {
             exit={{ opacity: 0, y: -24 }}
             className="fixed inset-x-4 top-20 z-30 mx-auto max-w-3xl"
           >
-            <div className="paper-panel grid gap-3 rounded-[2rem] p-4 md:grid-cols-4">
+            <div className="paper-panel grid gap-3 rounded-[2rem] p-4 md:grid-cols-3">
               {navItems.map((item) => (
                 <Link
                   key={item.href}

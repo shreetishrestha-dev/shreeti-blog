@@ -4,7 +4,7 @@ import path from "node:path";
 import Database from "better-sqlite3";
 
 import { siteConfig } from "@/content/site-content";
-import { getPoemEntries } from "@/lib/entry-sources";
+import { getLocalEntries } from "@/lib/entry-sources";
 import { getMediumArticles } from "@/lib/medium";
 import type { CreativeEntry, EntryCategory } from "@/lib/types";
 
@@ -172,12 +172,12 @@ function sortEntries(entries: CreativeEntry[]) {
 }
 
 function ensureLocalEntries() {
-  const poems = getPoemEntries();
-  const contentHash = JSON.stringify(poems);
+  const entries = getLocalEntries();
+  const contentHash = JSON.stringify(entries);
 
   if (getMeta("local_hash") === contentHash) return;
 
-  replaceEntries(poems, "local");
+  replaceEntries(entries, "local");
   setMeta("local_hash", contentHash);
 }
 

@@ -39,3 +39,40 @@ export function excerptFromParagraphs(paragraphs: string[], maxLength = 148) {
   if (joined.length <= maxLength) return joined;
   return `${joined.slice(0, maxLength).trimEnd()}...`;
 }
+
+function stableHash(value: string) {
+  let hash = 0;
+
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (hash * 31 + value.charCodeAt(index)) >>> 0;
+  }
+
+  return hash;
+}
+
+export function getDeterministicSample<T>(items: T[], count: number, getKey: (item: T) => string) {
+  return [...items]
+    .sort((left, right) => stableHash(getKey(left)) - stableHash(getKey(right)))
+    .slice(0, count);
+}
+
+export function getDeterministicUniqueSample<T>(
+  items: T[],
+  count: number,
+  getKey: (item: T) => string,
+  getUniquenessKey: (item: T) => string,
+) {
+  const uniqueItems = new Map<string, T>();
+
+  for (const item of [...items].sort((left, right) => stableHash(getKey(left)) - stableHash(getKey(right)))) {
+    const uniquenessKey = getUniquenessKey(item).trim().toLowerCase();
+
+    if (!uniquenessKey || uniqueItems.has(uniquenessKey)) {
+      continue;
+    }
+
+    uniqueItems.set(uniquenessKey, item);
+  }
+
+  return Array.from(uniqueItems.values()).slice(0, count);
+}

@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
+import { IntentLink } from "@/components/intent-link";
 import type { CreativeEntry } from "@/lib/types";
 import { formatLongDate } from "@/lib/utils";
 
@@ -28,13 +28,13 @@ export function ContentCard({ entry }: { entry: CreativeEntry }) {
       </p>
       <div className="mt-6 flex items-center justify-between text-sm text-[var(--muted)]">
         <span>{entry.sourceLabel}</span>
-        <Link
+        <IntentLink
           href={`/blog/${entry.slug}`}
           className="ghost-button inline-flex items-center gap-2 rounded-full px-4 py-2 transition"
         >
           Read
           <ArrowUpRight size={16} />
-        </Link>
+        </IntentLink>
       </div>
     </motion.article>
   );

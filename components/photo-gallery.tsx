@@ -7,8 +7,15 @@ import { useState } from "react";
 
 import type { PhotoItem } from "@/lib/types";
 
-export function PhotoGallery({ photos }: { photos: PhotoItem[] }) {
+export function PhotoGallery({
+  photos,
+  variant = "full",
+}: {
+  photos: PhotoItem[];
+  variant?: "full" | "compact";
+}) {
   const [active, setActive] = useState<PhotoItem | null>(null);
+  const compact = variant === "compact";
 
   return (
     <>
@@ -18,7 +25,9 @@ export function PhotoGallery({ photos }: { photos: PhotoItem[] }) {
             key={photo.id}
             whileHover={{ y: -6, rotate: index % 2 === 0 ? -1 : 1 }}
             onClick={() => setActive(photo)}
-            className="cutout-card group relative overflow-hidden rounded-[2rem] p-2 pt-10 text-left"
+            className={`cutout-card group relative overflow-hidden rounded-[2rem] p-2 pt-10 text-left ${
+              compact ? "home-photo-card" : ""
+            }`}
           >
             <div className="absolute inset-2 top-10 bg-[linear-gradient(180deg,transparent_18%,rgba(24,18,20,0.78)_100%)]" />
             <Image
@@ -26,11 +35,13 @@ export function PhotoGallery({ photos }: { photos: PhotoItem[] }) {
               alt={photo.alt}
               width={900}
               height={1200}
-              className="h-[26rem] w-full rounded-[1.5rem] object-cover transition duration-500 group-hover:scale-[1.03]"
+              className={`w-full rounded-[1.5rem] object-cover transition duration-500 group-hover:scale-[1.03] ${
+                compact ? "h-[15rem] md:h-[16rem]" : "h-[26rem]"
+              }`}
             />
             <div className="absolute inset-x-0 bottom-0 p-7">
-              <h3 className="font-display text-3xl text-white">{photo.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-stone-200">{photo.caption}</p>
+              <h3 className={`font-display text-white ${compact ? "text-2xl" : "text-3xl"}`}>{photo.title}</h3>
+              {!compact ? <p className="mt-2 text-sm leading-6 text-stone-200">{photo.caption}</p> : null}
             </div>
           </motion.button>
         ))}

@@ -210,6 +210,34 @@ html[data-theme="nocturne"] .poem-card {
   background: var(--button-hover-surface);
 }
 
+.page-home-badge {
+  backdrop-filter: blur(10px);
+}
+
+.page-home-logo {
+  border: 1.5px solid var(--button-border);
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.72), transparent 42%),
+    linear-gradient(135deg, rgba(241, 200, 75, 0.42), rgba(238, 108, 77, 0.26)),
+    var(--surface);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.24),
+    0 8px 18px rgba(34, 23, 29, 0.08);
+  color: var(--foreground);
+}
+
+.footer-island {
+  border: 1.5px solid var(--border);
+  background:
+    radial-gradient(circle at top center, rgba(255, 255, 255, 0.4), transparent 45%),
+    linear-gradient(180deg, var(--panel-overlay-top), var(--panel-overlay-bottom)),
+    var(--surface);
+  box-shadow:
+    0 18px 38px var(--shadow),
+    0 0 0 6px rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+}
+
 .section-label {
   display: inline-flex;
   align-items: center;
